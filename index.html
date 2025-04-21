@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Training Video Attendance</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    header img {
+      height: 60px;
+      margin-right: 15px;
+    }
+    .instructions {
+      background: #fff;
+      padding: 20px;
+      border-left: 5px solid #0E3B32;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 480px;
+      margin-bottom: 20px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    input[type="submit"] {
+      background-color: #0E3B32;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #0a2a24;
+    }
+  </style>
+
+  <script>
+    (function(){
+      emailjs.init("amr.abousamra@jcd.com.sa"); // Replace this
+    })();
+
+    window.onload = function () {
+      setTimeout(() => {
+        document.getElementById("attendanceForm").style.display = "block";
+      }, 30 * 60 * 1000); // 30 minutes
+    };
+
+    function sendEmail(e) {
+      e.preventDefault();
+      const now = new Date().toLocaleString();
+      document.getElementById("datetime").value = now;
+
+      emailjs.sendForm('service_f8oxkjw', 'e7f5tu6', e.target)
+        .then(() => {
+          alert("Thank you! Your attendance has been recorded.");
+          e.target.reset();
+        }, () => {
+          alert("Failed to send. Please try again later.");
+        });
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <img src="https://en.maaal.com/wp-content/uploads/2022/08/JCD-Logo.png" alt="Logo">
+    <h1>Training Attendance Portal</h1>
+  </header>
+
+  <div class="instructions">
+    <h3>Important Instructions:</h3>
+    <p>This video is 30 minutes long. You are required to watch it completely. You may take short breaks by pausing the video.</p>
+    <p>Once the video is completed, the registration form will appear below. Please make sure to submit your attendance by filling out the form.</p>
+  </div>
+
+  <iframe src="https://iframe.mediadelivery.net/play/162227/77c745e0-d479-4885-83a4-2c4129ef2409" allow="autoplay" allowfullscreen></iframe>
+
+  <div id="attendanceForm" style="display: none;">
+    <h3>Attendance Registration</h3>
+    <form id="form" onsubmit="sendEmail(event)">
+      <input type="hidden" name="datetime" id="datetime">
+
+      <label for="employee_name">Employee Name:</label>
+      <input type="text" name="employee_name" id="employee_name" required>
+
+      <label for="company">Company:</label>
+      <input type="text" name="company" id="company" required>
+
+      <label for="feedback">Feedback / Rating:</label>
+      <textarea name="feedback" id="feedback" required></textarea>
+
+      <input type="submit" value="Submit Attendance">
+    </form>
+  </div>
+</body>
+</html>
