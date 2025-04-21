@@ -86,7 +86,7 @@
       const now = new Date().toLocaleString();
       document.getElementById("datetime").value = now;
 
-      emailjs.sendForm('service_f8oxkjw', 'e7f5tu6', e.target)
+      emailjs.sendForm('service_f8oxkjw', 'template_6vurejq', e.target)
         .then(() => {
           alert("Thank you! Your attendance has been recorded.");
           e.target.reset();
