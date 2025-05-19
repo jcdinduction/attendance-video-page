@@ -117,19 +117,25 @@
     function sendEmail(e) {
   e.preventDefault();
 
-  // Prevent links in feedback
+  // Get values
+  const name = document.getElementById("employee_name").value;
+  const company = document.getElementById("company").value;
   const feedback = document.getElementById("feedback").value;
+
+  // Regex to detect links
   const linkPattern = /https?:\/\/|www\./i;
-  if (linkPattern.test(feedback)) {
-    alert("Links are not allowed in the feedback.");
+
+  // Check for links in all fields
+  if (linkPattern.test(name) || linkPattern.test(company) || linkPattern.test(feedback)) {
+    alert("Links are not allowed in form fields.");
     return false;
   }
 
-  // Add datetime
+  // Set datetime
   const now = new Date().toLocaleString();
   document.getElementById("datetime").value = now;
 
-  // Proceed with sending form
+  // Send form via EmailJS
   emailjs.sendForm('service_f8oxkjw', 'template_6vurejq', e.target)
     .then(() => {
       alert("Thank you! Your attendance has been recorded.");
@@ -138,6 +144,7 @@
       alert("Failed to send. Please try again later.");
     });
 }
+
   </script>
 </head>
 
