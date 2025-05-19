@@ -115,18 +115,29 @@
     };
 
     function sendEmail(e) {
-      e.preventDefault();
-      const now = new Date().toLocaleString();
-      document.getElementById("datetime").value = now;
+  e.preventDefault();
 
-      emailjs.sendForm('service_f8oxkjw', 'template_6vurejq', e.target)
-        .then(() => {
-          alert("Thank you! Your attendance has been recorded.");
-          e.target.reset();
-        }, () => {
-          alert("Failed to send. Please try again later.");
-        });
-    }
+  // Prevent links in feedback
+  const feedback = document.getElementById("feedback").value;
+  const linkPattern = /https?:\/\/|www\./i;
+  if (linkPattern.test(feedback)) {
+    alert("Links are not allowed in the feedback.");
+    return false;
+  }
+
+  // Add datetime
+  const now = new Date().toLocaleString();
+  document.getElementById("datetime").value = now;
+
+  // Proceed with sending form
+  emailjs.sendForm('service_f8oxkjw', 'template_6vurejq', e.target)
+    .then(() => {
+      alert("Thank you! Your attendance has been recorded.");
+      e.target.reset();
+    }, () => {
+      alert("Failed to send. Please try again later.");
+    });
+}
   </script>
 </head>
 
