@@ -139,6 +139,7 @@
   emailjs.sendForm('service_f8oxkjw', 'template_6vurejq', e.target)
     .then(() => {
       alert("Thank you! Your attendance has been recorded.");
+      document.getElementById("attendanceForm").style.display = "none";
       e.target.reset();
     }, () => {
       alert("Failed to send. Please try again later.");
@@ -182,7 +183,7 @@
 
 
           <label>Employee Status:</label>
-          <div>
+          <div style="margin-bottom: 15px;">
             <label>
               <input type="radio" name="status" value="New" required>
               New
