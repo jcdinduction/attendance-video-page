@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Training Video Attendance</title>
-  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <style>
     body {
@@ -90,7 +89,8 @@
     }
   </style>
 
-  <script>
+  <script type="module">
+  import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/+esm';
     (function(){
       emailjs.init("UQxogU7RIsQNh43CP");
     })();
@@ -114,8 +114,8 @@
       }, 30 * 60 * 1000);
     };
 
-    function sendEmail(e) {
-  e.preventDefault();
+     window.sendEmail = function(e) {
+    e.preventDefault();
 
   // Get values
   const name = document.getElementById("employee_name").value;
@@ -208,16 +208,6 @@
       If you have any concerns or improvement suggestions, please email me at:<br>
       <a href="mailto:amr.abousamra@jcd.com.sa" style="color: #003383;">amr.abousamra@jcd.com.sa</a>
     </footer>
-  <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
-      emailjs.init({
-        publicKey: "UQxogU7RIsQNh43CP",
-      });
-   })();
-</script>
-  
+
 </body>
 </html>
