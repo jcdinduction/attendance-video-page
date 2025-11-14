@@ -88,7 +88,6 @@
       background-color: #3357a3;
     }
 
-    /* Timer message styling */
     #countdownMessage {
       text-align: center;
       font-size: 18px;
@@ -96,10 +95,46 @@
       margin: 30px 0;
       font-weight: bold;
     }
+
+    #chaptersListContainer {
+      margin-top: 40px;
+      text-align: center;
+      padding: 20px;
+      border: 2px solid #003383;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    #chaptersListContainer h3 {
+      font-size: 24px;
+      color: #003383;
+      margin-bottom: 20px;
+    }
+
+    #chaptersList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      margin: 8px;
+      padding: 10px 20px;
+      background-color: #003383;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3357a3;
+    }
   </style>
 
   <script type="module">
-    
     const chapters = [
         { start: 0, title: "Introduction" },
         { start: 60, title: "Agenda" },
@@ -125,86 +160,14 @@
     const video = document.getElementById('video');
     const chaptersList = document.getElementById('chaptersList');
 
-    // Dynamically create chapter buttons
     chapters.forEach((chapter) => {
         const button = document.createElement('button');
         button.innerText = chapter.title;
-        button.style.margin = "5px";
         button.onclick = function() {
-            video.currentTime = chapter.start; // Jump to the chapter start time
+            video.currentTime = chapter.start;
         };
         chaptersList.appendChild(button);
     });
-
-  import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/+esm';
-  emailjs.init("UQxogU7RIsQNh43CP");
-
-  window.onload = function () {
-    const video = document.getElementById('video');
-    const hlsSrc = 'https://vz-a969cc9d-df7.b-cdn.net/f9ebbbcb-d3ed-448f-88fa-78e6347d9684/playlist.m3u8';
-    const form = document.getElementById("attendanceForm");
-    const countdownEl = document.getElementById("countdownMessage");
-
-    // Load video
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(hlsSrc);
-      hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = hlsSrc;
-    }
-
-    // Hide form initially, show timer
-    form.style.display = "none";
-    countdownEl.style.display = "block";
-
-    // 30-minute countdown (1800 seconds)
-    let timeLeft = 30 * 60;
-
-    function updateCountdown() {
-      const minutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
-      countdownEl.innerHTML = `Attendance registration form will appear here after ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      timeLeft--;
-
-      if (timeLeft < 0) {
-        clearInterval(timer);
-        countdownEl.style.display = "none"; // hide countdown message
-        form.style.display = "block"; // show form
-      }
-    }
-
-    // Start countdown timer
-    updateCountdown();
-    const timer = setInterval(updateCountdown, 1000);
-  };
-
-  // Email sending logic
-  window.sendEmail = function(e) {
-    e.preventDefault();
-
-    const name = document.getElementById("employee_name").value;
-    const company = document.getElementById("company").value;
-    const feedback = document.getElementById("feedback").value;
-
-    const linkPattern = /https?:\/\/|www\./i;
-    if (linkPattern.test(name) || linkPattern.test(company) || linkPattern.test(feedback)) {
-      alert("Links are not allowed in form fields.");
-      return false;
-    }
-
-    const now = new Date().toLocaleString();
-    document.getElementById("datetime").value = now;
-
-    emailjs.sendForm('service_f8oxkjw', 'template_6vurejq', e.target)
-      .then(() => {
-        alert("Thank you! Your attendance has been recorded.");
-        document.getElementById("attendanceForm").style.display = "none";
-        e.target.reset();
-      }, () => {
-        alert("Failed to send. Please try again later.");
-      });
-  }
   </script>
 </head>
 
@@ -217,62 +180,36 @@
 
     <div class="instructions">
       <h3>Important Instructions:</h3>
-      <p>This video is 30 minutes long. You are required to watch it completely. You may take short breaks by pausing the video.</p>
-      <p>Once the video is completed, the registration form will appear below.
-        <strong style="color: red;">Please make sure to submit your attendance by filling out the form.</strong>
-      </p>
+      <p>Welcome to the training session. Please watch the video carefully and fill out the form to register your attendance.</p>
     </div>
-
-    <div class="video-wrapper">
-      <video id="video" controls autoplay muted playsinline>
-        <track kind="chapters" src="chapters.vtt" label="Chapters" default>
-      </video>
-    </div>
-  <div id="chaptersList" style="margin-top: 20px; text-align: center;">
-      <!-- Custom chapter list will be displayed here -->
-  </div>
-    <!-- Countdown message -->
-    <div id="countdownMessage"></div>
-
-    <!-- Hidden form initially -->
-    <div id="attendanceForm" style="display: none;">
-      <div class="form-container">
-        <h3>Attendance Registration</h3>
-        <form id="form" onsubmit="sendEmail(event)">
-          <input type="hidden" name="title" value="JCD Safety Induction Video">
-          <input type="hidden" name="datetime" id="datetime">
-
-          <label for="employee_name">Employee Name:</label>
-          <input type="text" name="employee_name" id="employee_name" required>
-
-          <label for="company">Company:</label>
-          <input type="text" name="company" id="company" required>
-
-          <label>Employee Status:</label>
-          <div style="margin-bottom: 15px;">
-            <label>
-              <input type="radio" name="status" value="New" required> New
-            </label>
-            <label style="margin-left: 20px;">
-              <input type="radio" name="status" value="Existing"> Existing
-            </label>
-          </div>
-
-          <label for="feedback">Feedback / Rating:</label>
-          <textarea name="feedback" id="feedback" required></textarea>
-
-          <input type="submit" value="Submit Attendance">
-        </form>
+    <!-- Chapters section with title and styled box -->
+    <div id="chaptersListContainer">
+      <h3>You may select a topic to jump to:</h3>
+      <div id="chaptersList">
+        <!-- Chapter buttons will appear here -->
       </div>
     </div>
-  </div>
+    <div class="video-wrapper">
+      <video id="video" controls>
+        <source src="https://vz-a969cc9d-df7.b-cdn.net/f9ebbbcb-d3ed-448f-88fa-78e6347d9684/playlist.m3u8" type="application/x-mpegURL">
+        Your browser does not support the video tag.
+      </video>
+    </div>
 
-  <footer style="text-align: center; margin-top: 40px; font-size: 14px; color: #666;">
-    This page is designed by <a href="https://www.linkedin.com/in/amrabousamra" target="_blank" style="color: #003383; font-weight: bold; text-decoration: none;">
-    Amr Abousamra
-  </a>, JCD HSE Department.<br>
-    If you have any concerns or improvement suggestions, please email me at:<br>
-    <a href="mailto:amr.abousamra@jcd.com.sa" style="color: #003383;">amr.abousamra@jcd.com.sa</a>
-  </footer>
+
+
+    <!-- Form section -->
+    <div class="form-container" id="attendanceForm" style="display: none;">
+      <h2>Training Attendance Form</h2>
+      <form onsubmit="sendEmail(event)">
+        <input type="text" id="employee_name" name="employee_name" placeholder="Your Name" required><br>
+        <input type="text" id="company" name="company" placeholder="Your Company Name" required><br>
+        <textarea id="feedback" name="feedback" placeholder="Your Feedback" required></textarea><br>
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+
+    <div id="countdownMessage" style="display: block;"></div>
+  </div>
 </body>
 </html>
