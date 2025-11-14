@@ -99,6 +99,43 @@
   </style>
 
   <script type="module">
+    
+    const chapters = [
+        { start: 0, title: "Introduction" },
+        { start: 60, title: "Agenda" },
+        { start: 118, title: "Evacuation Plan" },
+        { start: 194, title: "Fire Protection & Alarm System" },
+        { start: 290, title: "Welfare Facilities" },
+        { start: 372, title: "Security Measures" },
+        { start: 468, title: "Driving Control" },
+        { start: 599, title: "Office Safety" },
+        { start: 709, title: "Housekeeping" },
+        { start: 813, title: "Electrical Safety" },
+        { start: 989, title: "Site Clinic" },
+        { start: 1049, title: "Dress Code" },
+        { start: 1134, title: "Personal Protective Equipment" },
+        { start: 1262, title: "Working Near or Over Open Water" },
+        { start: 1324, title: "Waste Management" },
+        { start: 1394, title: "Total Commitment Management (TCM)" },
+        { start: 1574, title: "HSE Training Matrix" },
+        { start: 1674, title: "Emergency Contact Numbers" },
+        { start: 1744, title: "Recap" }
+    ];
+
+    const video = document.getElementById('video');
+    const chaptersList = document.getElementById('chaptersList');
+
+    // Dynamically create chapter buttons
+    chapters.forEach((chapter) => {
+        const button = document.createElement('button');
+        button.innerText = chapter.title;
+        button.style.margin = "5px";
+        button.onclick = function() {
+            video.currentTime = chapter.start; // Jump to the chapter start time
+        };
+        chaptersList.appendChild(button);
+    });
+
   import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/+esm';
   emailjs.init("UQxogU7RIsQNh43CP");
 
@@ -191,7 +228,9 @@
         <track kind="chapters" src="chapters.vtt" label="Chapters" default>
       </video>
     </div>
-
+  <div id="chaptersList" style="margin-top: 20px; text-align: center;">
+      <!-- Custom chapter list will be displayed here -->
+  </div>
     <!-- Countdown message -->
     <div id="countdownMessage"></div>
 
