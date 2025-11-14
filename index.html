@@ -169,7 +169,6 @@
       });
   }
   </script>
-
 </head>
 
 <body>
@@ -188,7 +187,9 @@
     </div>
 
     <div class="video-wrapper">
-      <video id="video" controls autoplay muted playsinline></video>
+      <video id="video" controls autoplay muted playsinline>
+        <track kind="chapters" src="chapters.vtt" label="Chapters" default>
+      </video>
     </div>
 
     <!-- Countdown message -->
